@@ -62,13 +62,15 @@ public class ProfileListener implements Listener {
         ProfileState state = profile.getState();
         //Participant participant = match.getParticipant(player.getUniqueId());
         //if (participant == null) return;
-        if (state != null) {
-            switch (state) {
-                case IN_SPECTATOR:
-                    profile.getMatch().removeSpectator(player.getUniqueId(), true);
-                    break;
-                case IN_GAME:
-                    match.onLeave(match.getParticipant(player), true);
+        if (match != null) {
+            if (state != null) {
+                switch (state) {
+                    case IN_SPECTATOR:
+                        profile.getMatch().removeSpectator(player.getUniqueId(), true);
+                        break;
+                    case IN_GAME:
+                        match.onLeave(match.getParticipant(player), true);
+                    }
                 }
             }
 
