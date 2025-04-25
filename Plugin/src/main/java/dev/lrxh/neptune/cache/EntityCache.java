@@ -57,17 +57,6 @@ public class EntityCache implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         entityMap.put(player.getEntityId(), player);
-        PlayerUtil.teleportToSpawn(player.getUniqueId());
-        HotbarService.get().giveItems(player);
-        Profile profile = API.getProfile(player.getUniqueId());
-        ProfileState state = profile.getState();
-        
-        switch (state) {
-            case IN_SPECTATOR:
-                profile.getMatch().removeSpectator(player.getUniqueId(), true);
-                HotbarService.get().giveItems(player);
-                break;
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

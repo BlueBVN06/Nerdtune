@@ -20,7 +20,6 @@ import dev.lrxh.neptune.utils.CC;
 import dev.lrxh.neptune.utils.PlayerUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -161,14 +160,14 @@ public class TeamFightMatch extends Match {
         if (getState() != MatchState.IN_ROUND) {
             return;
         }
-
         MatchTeam team = getParticipantTeam(participant);
         team.getDeadParticipants().add(participant);
 
         // Set the participant as dead
-        //hideParticipant(participant);
-        //participant.setDead(true);
-
+        participant.setDead(true);
+        if (team.getAliveParticipants() <= 0) {
+            end(participant);
+        }
         // Send the appropriate death message
         sendDeathMessage(participant);
 
@@ -255,24 +254,13 @@ public class TeamFightMatch extends Match {
 
     @Override
     public void onLeave(Participant participant, boolean quit) {
-        participant.setDeathCause(DeathCause.DISCONNECT);
         sendDeathMessage(participant);
 
         // Ensure match state is set to ENDING
         state = MatchState.ENDING;
-
         if (quit) {
-            // fix match khong end khi player quit
-            MatchTeam team = getParticipantTeam(participant);
-            if (team.getAliveParticipants() == 1) {
-                MatchTeam otherTeam = team == teamA ? teamB : teamA;
-                otherTeam.setLoser(false);
-                team.setLoser(true);
-                end(participant);
-                participant.setDisconnected(true);
-            } else {
-                team.getDeadParticipants().add(participant);
-            }
+            participant.setDeathCause(DeathCause.DISCONNECT);
+            participant.setDisconnected(true);
         } else {
             participant.setLeft(true);
             PlayerUtil.teleportToSpawn(participant.getPlayerUUID());
@@ -284,7 +272,6 @@ public class TeamFightMatch extends Match {
 
         // Always reset the arena when a player leaves to clean up placed blocks
         this.resetArena();
-
         onDeath(participant);
     }
 

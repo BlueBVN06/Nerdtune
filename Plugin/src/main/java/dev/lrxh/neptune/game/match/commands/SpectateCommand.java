@@ -41,7 +41,7 @@ public class SpectateCommand {
         targetProfile.getMatch().addSpectator(player, target, true, true);
     }
 
-    @Command(name = "leave", aliases = "quit", desc = "")
+    @Command(name = "leave", aliases = "exit", desc = "")
     public void leave(@Sender Player player) {
         Profile profile = API.getProfile(player);
 
