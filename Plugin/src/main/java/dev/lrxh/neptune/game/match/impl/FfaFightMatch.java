@@ -84,8 +84,8 @@ public class FfaFightMatch extends Match {
 
     @Override
     public void onLeave(Participant participant, boolean quit) {
-        participant.setDeathCause(DeathCause.DISCONNECT);
         if (quit) {
+            participant.setDeathCause(DeathCause.DISCONNECT);
             participant.setDisconnected(true);
         } else {
             participant.setLeft(true);
