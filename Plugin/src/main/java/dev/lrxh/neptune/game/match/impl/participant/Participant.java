@@ -50,6 +50,10 @@ public class Participant {
         return color.getColor() + name;
     }
 
+    public String getColored() {
+        return color.getColor() + "";
+    }
+    
     public void addWin() {
         roundsWon++;
     }

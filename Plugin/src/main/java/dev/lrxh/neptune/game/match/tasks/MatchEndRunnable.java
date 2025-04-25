@@ -12,6 +12,9 @@ import dev.lrxh.neptune.profile.data.ProfileState;
 import dev.lrxh.neptune.profile.impl.Profile;
 import dev.lrxh.neptune.utils.PlayerUtil;
 import dev.lrxh.neptune.utils.tasks.NeptuneRunnable;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.nametag.NameTagManager;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -52,7 +55,14 @@ public class MatchEndRunnable extends NeptuneRunnable {
                 PlayerUtil.reset(participant.getPlayer());
                 profile.setMatch(null);
                 PlayerUtil.teleportToSpawn(participant.getPlayerUUID());
-                match.forEachPlayer(player -> HotbarService.get().giveItems(player));
+            });
+            match.forEachPlayer(player -> HotbarService.get().giveItems(player));
+            match.forEachPlayer(player -> {
+                TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
+                NameTagManager ntm = TabAPI.getInstance().getNameTagManager();
+                assert tabPlayer != null;
+                assert ntm != null;
+                ntm.setPrefix(tabPlayer,"%luckperms-prefix%");
             });
 
             match.sendEndMessage();

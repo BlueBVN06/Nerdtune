@@ -9,9 +9,14 @@ import dev.lrxh.neptune.game.match.Match;
 import dev.lrxh.neptune.game.match.impl.FfaFightMatch;
 import dev.lrxh.neptune.game.match.impl.MatchState;
 import dev.lrxh.neptune.game.match.impl.participant.Participant;
+import dev.lrxh.neptune.game.match.impl.participant.ParticipantColor;
 import dev.lrxh.neptune.profile.data.SettingData;
 import dev.lrxh.neptune.providers.clickable.Replacement;
 import dev.lrxh.neptune.utils.tasks.NeptuneRunnable;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.nametag.NameTagManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -36,10 +41,19 @@ public class MatchStartRunnable extends NeptuneRunnable {
         if (match.arena instanceof StandAloneArena standAloneArena) {
             standAloneArena.setUsed(true);
         }
-
+        
         match.forEachPlayer(player -> {
             player.setMaxHealth(match.getKit().getHealth());
             player.setHealth(match.getKit().getHealth());
+            Participant participant = match.getParticipant(player);
+            TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
+            NameTagManager ntm = TabAPI.getInstance().getNameTagManager();
+            String colored = participant.getColored();
+            assert participant != null;
+            assert tabPlayer != null;
+            assert ntm != null;
+            assert colored != null;
+            ntm.setPrefix(tabPlayer, colored);
         });
 
         match.getTime().setStop(true);
