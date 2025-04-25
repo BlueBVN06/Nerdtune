@@ -89,6 +89,7 @@ public class FfaFightMatch extends Match {
             participant.setDisconnected(true);
         } else {
             participant.setLeft(true);
+            participant.clearColored();
             PlayerUtil.teleportToSpawn(participant.getPlayerUUID());
             Profile profile = API.getProfile(participant.getPlayerUUID());
             profile.setState(profile.getGameData().getParty() == null ? ProfileState.IN_LOBBY : ProfileState.IN_PARTY);

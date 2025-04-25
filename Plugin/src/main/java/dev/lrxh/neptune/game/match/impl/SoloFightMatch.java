@@ -360,7 +360,7 @@ public class SoloFightMatch extends Match {
 
         // Ensure match state is set to ENDING
         state = MatchState.ENDING;
-
+        participant.clearColored();
         // Make sure cached username data is up-to-date before potential profile removal
         Profile profile = API.getProfile(participant.getPlayerUUID());
         if (profile != null) {

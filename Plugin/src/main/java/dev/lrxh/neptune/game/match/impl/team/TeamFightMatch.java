@@ -255,6 +255,7 @@ public class TeamFightMatch extends Match {
     @Override
     public void onLeave(Participant participant, boolean quit) {
         sendDeathMessage(participant);
+        participant.clearColored();
 
         // Ensure match state is set to ENDING
         //state = MatchState.ENDING;

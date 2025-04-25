@@ -10,6 +10,9 @@ import dev.lrxh.neptune.providers.clickable.Replacement;
 import dev.lrxh.neptune.utils.CC;
 import dev.lrxh.neptune.utils.PlayerUtil;
 import lombok.Data;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.nametag.NameTagManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -53,7 +56,15 @@ public class Participant {
     public String getColored() {
         return color.getColor() + "";
     }
-    
+
+    public void clearColored() {
+        TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(playerUUID);
+        NameTagManager ntm = TabAPI.getInstance().getNameTagManager();
+        assert tabPlayer != null;
+        assert ntm != null;
+        ntm.setPrefix(tabPlayer,"%luckperms-prefix%");
+    }
+
     public void addWin() {
         roundsWon++;
     }
