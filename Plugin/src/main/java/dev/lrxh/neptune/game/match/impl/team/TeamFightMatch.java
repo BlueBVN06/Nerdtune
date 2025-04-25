@@ -257,7 +257,7 @@ public class TeamFightMatch extends Match {
         sendDeathMessage(participant);
 
         // Ensure match state is set to ENDING
-        state = MatchState.ENDING;
+        //state = MatchState.ENDING;
         if (quit) {
             participant.setDeathCause(DeathCause.DISCONNECT);
             participant.setDisconnected(true);
