@@ -34,11 +34,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
-import org.jetbrains.annotations.NotNull;
-
-import me.neznamy.tab.api.TabAPI;
-import me.neznamy.tab.api.TabPlayer;
-import me.neznamy.tab.api.nametag.NameTagManager;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -391,17 +386,6 @@ public abstract class Match {
         
         // Give the appropriate kit loadout
         kit.giveLoadout(participant);
-        //TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
-        //NameTagManager nameTagManager = TabAPI.getInstance().getNameTagManager();
-        //if (nameTagManager != null) {
-        //    String coloredName = participant.getNameColored();
-        //    nameTagManager.setPrefix(tabPlayer, coloredName);
-            // You can also set a suffix if needed:
-            // nameTagManager.setSuffix(tabPlayer, "");
-        //} else {
-            // Handle the case where NameTagManager is not available (e.g., TAB is not enabled)
-        //    System.err.println("TAB NameTagManager is not available.");
-        //}
     }
     public void broadcast(MessagesLocale messagesLocale, Replacement... replacements) {
         forEachParticipant(participant -> messagesLocale.send(participant.getPlayerUUID(), replacements));

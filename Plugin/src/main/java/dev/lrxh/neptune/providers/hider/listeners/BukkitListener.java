@@ -45,19 +45,6 @@ public class BukkitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         EntityHider.removePlayer(e.getPlayer());
-        Profile profile = API.getProfile(e.getPlayer().getUniqueId());
-        if (profile == null) return;
-        ProfileState state = profile.getState();
-        if (state != null) {
-            switch (state) {
-                case IN_SPECTATOR:
-                    profile.getMatch().removeSpectator(e.getPlayer().getUniqueId(), true);
-                    break;
-                case IN_GAME:
-                    profile.getMatch().onLeave(profile.getMatch().getParticipant(e.getPlayer().getUniqueId()), false);
-                    MessagesLocale.MATCH_FORFEIT.send(e.getPlayer());
-            }
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

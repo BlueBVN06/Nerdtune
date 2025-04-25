@@ -262,7 +262,17 @@ public class TeamFightMatch extends Match {
         state = MatchState.ENDING;
 
         if (quit) {
-            participant.setDisconnected(true);
+            // fix match khong end khi player quit
+            MatchTeam team = getParticipantTeam(participant);
+            if (team.getAliveParticipants() == 1) {
+                MatchTeam otherTeam = team == teamA ? teamB : teamA;
+                otherTeam.setLoser(false);
+                team.setLoser(true);
+                end(participant);
+                participant.setDisconnected(true);
+            } else {
+                team.getDeadParticipants().add(participant);
+            }
         } else {
             participant.setLeft(true);
             PlayerUtil.teleportToSpawn(participant.getPlayerUUID());

@@ -65,10 +65,8 @@ public class EntityCache implements Listener {
         switch (state) {
             case IN_SPECTATOR:
                 profile.getMatch().removeSpectator(player.getUniqueId(), true);
+                HotbarService.get().giveItems(player);
                 break;
-            case IN_GAME:
-                profile.getMatch().onLeave(profile.getMatch().getParticipant(player.getUniqueId()), false);
-                MessagesLocale.MATCH_FORFEIT.send(player);
         }
     }
 
